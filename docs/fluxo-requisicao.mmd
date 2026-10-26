@@ -1,0 +1,40 @@
+flowchart TD
+    A([Cliente faz Requisição HTTP]) --> B["Rotas<br/>routes/api/*.php"]
+    B --> C["Middleware<br/>auth.api"]
+    C -->|Token Inválido/Expirado| D["Retorna 401<br/>ReturnApi::error"]
+    C -->|Token Válido| P["Middleware<br/>can:permissão"]
+    P -->|Sem Permissão| P403["Retorna 403<br/>Acesso negado"]
+    P -->|Autorizado| F["FormRequest<br/>app/Http/Requests/*"]
+    F --> G["prepareForValidation<br/>Prepara dados"]
+    G --> H["Validação<br/>rules + authorize"]
+    H -->|Dados Inválidos| I["Retorna 400<br/>ValidationException"]
+    H -->|Dados Válidos| E["Controller<br/>app/Http/Controllers/*"]
+    E --> K["Controller Method<br/>Ex: store, index, update"]
+    K --> L["Service<br/>app/Services/*"]
+    L --> M["Lógica de Negócio<br/>- Transações DB<br/>- Operações com Models<br/>- Regras de negócio"]
+    M --> N["Resource<br/>app/Http/Resources/*"]
+    M -->|Exception| Q["Controller Catch<br/>ApiException"]
+    N --> O["ReturnApi<br/>app/Builder/ReturnApi"]
+    O --> R["Retorno JSON<br/>error: false + message + data"]
+    Q --> S["Retorna Erro<br/>ReturnApi::error"]
+
+    classDef default stroke:#333,stroke-width:2px
+    style A fill:#e1f5fe
+    style B fill:#fff3e0
+    style C fill:#fce4ec
+    style P fill:#fce4ec
+    style D fill:#f8d7da
+    style P403 fill:#f8d7da
+    style E fill:#e0ffe0
+    style F fill:#f3e0ff
+    style H fill:#ffffff
+    style G fill:#ffffff
+    style I fill:#f8d7da
+    style K fill:#ffffff
+    style L fill:#ffe0e6
+    style M fill:#ffffff
+    style N fill:#ffffff
+    style O fill:#e0ffff
+    style Q fill:#ffffff
+    style R fill:#d4edda
+    style S fill:#f8d7da
