@@ -14,7 +14,7 @@ Base para APIs REST em Laravel com autenticação JWT, controle de acesso por ca
 ## Instalação
 
 ```bash
-git clone git@github.com:Next-Tecnologia/laravel-back-end-starter-pack.git
+git clone git@github.com:GuedesMariaF/laravel-back-end-starter-pack.git
 cd laravel-back-end-starter-pack
 
 composer install
